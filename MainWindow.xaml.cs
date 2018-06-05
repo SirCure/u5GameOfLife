@@ -25,31 +25,21 @@ namespace u5GameOfLife
             InitializeComponent();
 
             //Global Variables.
-            Rectangle rectangle = new Rectangle();
             List<Rectangle> grid = new List<Rectangle>();
 
-            //Creates lengthwise rectangles.
-            for (int i = 0; i < 21; i++)
+            for(int y = 0; y < 20; y++)
             {
-                grid.Add(new Rectangle());
-                grid[grid.Count - 1].Height = 2;
-                grid[grid.Count - 1].Width = 800;
-                grid[grid.Count - 1].Fill = Brushes.Black;
-                Canvas.SetLeft(grid[grid.Count - 1], 0);
-                Canvas.SetTop(grid[grid.Count - 1], i * 40);
-                canvas.Children.Add(grid[grid.Count - 1]);
-            }
-
-            //Creates heightwise rectangles.
-            for (int i = 0; i < 21; i++)
-            {
-                grid.Add(new Rectangle());
-                grid[grid.Count - 1].Height = 800;
-                grid[grid.Count - 1].Width = 2;
-                grid[grid.Count - 1].Fill = Brushes.Black;
-                Canvas.SetLeft(grid[grid.Count - 1], i * 40);
-                Canvas.SetTop(grid[grid.Count - 1], 0);
-                canvas.Children.Add(grid[grid.Count - 1]);
+                for(int x = 0; x < 20; x++)
+                {
+                    grid.Add(new Rectangle());
+                    grid[grid.Count - 1].Height = 40;
+                    grid[grid.Count - 1].Width = 40;
+                    grid[grid.Count - 1].StrokeThickness = 1;
+                    grid[grid.Count - 1].Stroke = Brushes.Black;
+                    canvas.Children.Add(grid[grid.Count - 1]);
+                    Canvas.SetLeft(grid[grid.Count - 1], x * 40);
+                    Canvas.SetTop(grid[grid.Count - 1], y * 40);
+                }
             }
         }
     }
