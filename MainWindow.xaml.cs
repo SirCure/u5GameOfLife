@@ -25,24 +25,32 @@ namespace u5GameOfLife
             InitializeComponent();
 
             //Global Variables.
-            Canvas canvas = new Canvas();
             Rectangle rectangle = new Rectangle();
             List<Rectangle> grid = new List<Rectangle>();
-            int height;
-            int width;
 
             //Creates lengthwise rectangles.
-            height = 1;
-            width = 400;
-            //for(int i = 0; i < 19; i++)
-            //{
-                rectangle.Height = height;
-                rectangle.Width = width;
-                rectangle.Fill = Brushes.Salmon;
-                canvas.Children.Add(rectangle);
-                Canvas.SetLeft(rectangle, 0);
-                Canvas.SetTop(rectangle, 0);
-            //}
+            for (int i = 0; i < 21; i++)
+            {
+                grid.Add(new Rectangle());
+                grid[grid.Count - 1].Height = 2;
+                grid[grid.Count - 1].Width = 800;
+                grid[grid.Count - 1].Fill = Brushes.Black;
+                Canvas.SetLeft(grid[grid.Count - 1], 0);
+                Canvas.SetTop(grid[grid.Count - 1], i * 40);
+                canvas.Children.Add(grid[grid.Count - 1]);
+            }
+
+            //Creates heightwise rectangles.
+            for (int i = 0; i < 21; i++)
+            {
+                grid.Add(new Rectangle());
+                grid[grid.Count - 1].Height = 800;
+                grid[grid.Count - 1].Width = 2;
+                grid[grid.Count - 1].Fill = Brushes.Black;
+                Canvas.SetLeft(grid[grid.Count - 1], i * 40);
+                Canvas.SetTop(grid[grid.Count - 1], 0);
+                canvas.Children.Add(grid[grid.Count - 1]);
+            }
         }
     }
 }
