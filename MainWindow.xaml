@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:u5GameOfLife"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="900">
+        Title="MainWindow" Height="900" Width="900" PreviewMouseDown="BodyClick">
     <Canvas x:Name="canvas">
-        <Button Content="Run Simulation" Canvas.Left="800" Canvas.Top="50" Width="100"/>
+        <Button Content="Run Simulation" Canvas.Left="800" Canvas.Top="50" Width="100" />
     </Canvas>
 </Window>
