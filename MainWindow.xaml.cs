@@ -27,6 +27,7 @@ namespace u5GameOfLife
         Point mousePos = new Point();
         int gridX;
         int gridY;
+        int counter;
 
         public MainWindow()
         {
@@ -51,18 +52,123 @@ namespace u5GameOfLife
             }
         }
 
+        //Runs one step of the simulation.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            for (int y = 0;  y < 20; y++)
+            {
+                for(int x = 0; x < 20; x++)
+                {
+                    counter = 0;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        //Checks up and left.
+                        if (i == 0)
+                        {
+                            CheckAlive(x - 1, y - 1);
+                        }
 
+                        //Checks up.
+                        else if (i == 1)
+                        {
+                            CheckAlive(x, y - 1);
+                        }
+
+                        //Checks up and right.
+                        else if (i == 2)
+                        {
+                            CheckAlive(x + 1, y - 1);
+                        }
+
+                        //Checks left.
+                        else if (i == 3)
+                        {
+                            CheckAlive(x - 1, y);
+                        }
+
+                        //Checks right.
+                        else if (i == 4)
+                        {
+                            CheckAlive(x + 1, y);
+                        }
+
+                        //Checks down and left.
+                        else if (i == 5)
+                        {
+                            CheckAlive(x - 1, y +1);
+                        }
+
+                        //Checks down.
+                        else if (i == 6)
+                        {
+                            CheckAlive(x, y + 1);
+                        }
+
+                        //Checks down and right.
+                        else if (i == 7)
+                        {
+                            CheckAlive(x + 1, y + 1);
+                        }
+                    }
+
+                    if(counter == 2 && aliveCurrent[x, y])
+                    {
+                        aliveNext[x, y] = true;
+                    }
+
+                    else if(counter == 3)
+                    {
+                        aliveNext[x, y] = true;
+                    }
+
+                    else
+                    {
+                        aliveNext[x, y] = false;
+                    }
+                }
+            }
+
+            aliveCurrent = aliveNext;
+
+            for (int y = 0; y < 20; y++)
+            {
+                for(int x = 0; x < 20; x++)
+                {
+                    if(aliveCurrent[x, y] == true)
+                    {
+                        grid[x + (y * 20)].Fill = Brushes.Salmon;
+                    }
+
+                    else
+                    {
+                        grid[x + (y * 20)].Fill = Brushes.White;
+                    }
+                }
+            }
+        }
+
+        public void CheckAlive(int x, int y)
+        {
+            if(x < 0 || x > 19 || y < 0 || y > 19)
+            {
+            }
+
+            else if(aliveCurrent[x, y] == true)
+            {
+                counter++;
+            }
         }
 
         private void BodyClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Point currentPosition = e.GetPosition(this);
-            gridX = Convert.ToInt32(Math.Floor(currentPosition.X / 40));
-            gridY = Convert.ToInt32(Math.Floor(currentPosition.Y / 40));
-            aliveCurrent[gridX, gridY] = true;
-            grid[gridX + (gridY * 20)].Fill = Brushes.Salmon;
-        }
-    }
+            if(currentPosition.X < 800 && currentPosition.Y < 800)
+            {
+                gridX = Convert.ToInt32(Math.Floor(currentPosition.X / 40));
+                gridY = Convert.ToInt32(Math.Floor(currentPosition.Y / 40));
+                aliveCurrent[gridX, gridY] = true;
+                grid[gridX + (gridY * 20)].Fill = Brushes.Salmon;
+            }
+       }
+   }
 }
