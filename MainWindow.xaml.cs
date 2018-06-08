@@ -38,7 +38,6 @@ namespace u5GameOfLife
                 for (int x = 0; x < 20; x++)
                 {
                     grid.Add(new Rectangle());
-                    grid[grid.Count - 1].MouseDown += BodyClick;
                     grid[grid.Count - 1].Height = 40;
                     grid[grid.Count - 1].Width = 40;
                     grid[grid.Count - 1].StrokeThickness = 1;
@@ -48,6 +47,7 @@ namespace u5GameOfLife
                     Canvas.SetLeft(grid[grid.Count - 1], x * 40);
                     Canvas.SetTop(grid[grid.Count - 1], y * 40);
                     aliveCurrent[x, y] = false;
+                    aliveNext[x, y] = false;
                 }
             }
         }
@@ -55,9 +55,9 @@ namespace u5GameOfLife
         //Runs one step of the simulation.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            for (int y = 0;  y < 20; y++)
+            for (int y = 0; y < 20; y++)
             {
-                for(int x = 0; x < 20; x++)
+                for (int x = 0; x < 20; x++)
                 {
                     counter = 0;
                     for (int i = 0; i < 8; i++)
@@ -95,7 +95,7 @@ namespace u5GameOfLife
                         //Checks down and left.
                         else if (i == 5)
                         {
-                            CheckAlive(x - 1, y +1);
+                            CheckAlive(x - 1, y + 1);
                         }
 
                         //Checks down.
@@ -111,12 +111,12 @@ namespace u5GameOfLife
                         }
                     }
 
-                    if(counter == 2 && aliveCurrent[x, y])
+                    if (counter == 2 && aliveCurrent[x, y])
                     {
                         aliveNext[x, y] = true;
                     }
 
-                    else if(counter == 3)
+                    else if (counter == 3)
                     {
                         aliveNext[x, y] = true;
                     }
@@ -128,13 +128,14 @@ namespace u5GameOfLife
                 }
             }
 
-            aliveCurrent = aliveNext;
-
+            //Convert aliveNext to aliveCurrent.
             for (int y = 0; y < 20; y++)
             {
-                for(int x = 0; x < 20; x++)
+                for (int x = 0; x < 20; x++)
                 {
-                    if(aliveCurrent[x, y] == true)
+                    aliveCurrent[x, y] = aliveNext[x, y];
+
+                    if (aliveCurrent[x, y] == true)
                     {
                         grid[x + (y * 20)].Fill = Brushes.Salmon;
                     }
@@ -149,11 +150,11 @@ namespace u5GameOfLife
 
         public void CheckAlive(int x, int y)
         {
-            if(x < 0 || x > 19 || y < 0 || y > 19)
+            if (x < 0 || x > 19 || y < 0 || y > 19)
             {
             }
 
-            else if(aliveCurrent[x, y] == true)
+            else if (aliveCurrent[x, y] == true)
             {
                 counter++;
             }
@@ -162,13 +163,23 @@ namespace u5GameOfLife
         private void BodyClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Point currentPosition = e.GetPosition(this);
-            if(currentPosition.X < 800 && currentPosition.Y < 800)
+            if (currentPosition.X < 800 && currentPosition.Y < 800)
             {
                 gridX = Convert.ToInt32(Math.Floor(currentPosition.X / 40));
                 gridY = Convert.ToInt32(Math.Floor(currentPosition.Y / 40));
-                aliveCurrent[gridX, gridY] = true;
-                grid[gridX + (gridY * 20)].Fill = Brushes.Salmon;
+
+                if(aliveCurrent[gridX, gridY] == false)
+                {
+                    aliveCurrent[gridX, gridY] = true;
+                    grid[gridX + (gridY * 20)].Fill = Brushes.Salmon;
+                }
+                
+                else if(aliveCurrent[gridX, gridY] == true)
+                {
+                    aliveCurrent[gridX, gridY] = false;
+                    grid[gridX + (gridY * 20)].Fill = Brushes.White;
+                }
             }
-       }
-   }
+        }
+    }
 }
